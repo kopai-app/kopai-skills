@@ -1,0 +1,6 @@
+# Eval runs: the temporary copy inside the plugin and the results.
+plugins/kopai/eval-run-*/
+evals/*/results/
+
+node_modules/
+.DS_Store

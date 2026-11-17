@@ -1,0 +1,4 @@
+# Only skills maintainers can approve changes: every merge to main is a
+# release of the plugin. Replace with the maintainers team
+# (@kopai-app/skills-maintainers) once the repo moves to kopai-app.
+* @harysamardzic

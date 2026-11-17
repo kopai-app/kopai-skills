@@ -1,0 +1,4 @@
+{
+  "workspace": "kopai",
+  "skills": ["create-dashboard", "otel-instrumentation", "root-cause-analysis"]
+}

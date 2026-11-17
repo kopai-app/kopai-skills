@@ -1,0 +1,70 @@
+name: Publish skills to Tessl
+
+# Publishes each portable skill in tessl/skills.json as its own Tessl
+# package, kopai/<skill>, at the skill's metadata.version. Versions Tessl
+# already has are skipped; CI makes sure a changed skill was bumped.
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/kopai/skills/**"
+      - "tessl/**"
+      - "scripts/tessl-stage.mjs"
+      - "scripts/lib/**"
+  workflow_dispatch:
+
+concurrency:
+  group: publish-skills-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    outputs:
+      skills: ${{ steps.list.outputs.skills }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: list
+        run: echo "skills=$(node scripts/tessl-stage.mjs --list)" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: list
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        skill: ${{ fromJSON(needs.list.outputs.skills) }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: tesslio/setup-tessl@v2
+        with:
+          token: ${{ secrets.TESSL_API_TOKEN }}
+      - name: Stage the package
+        run: node scripts/tessl-stage.mjs "${{ matrix.skill }}" "$RUNNER_TEMP/pkg"
+      - name: Check whether this version is already published
+        id: published
+        working-directory: ${{ runner.temp }}/pkg
+        run: |
+          tile="$(jq -r '"\(.name)@\(.version)"' .tessl-plugin/plugin.json)"
+          if tessl plugin info "$tile" --json > /dev/null 2>&1; then
+            echo "$tile is already published, skipping"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Review skill
+        if: steps.published.outputs.skip == 'false'
+        working-directory: ${{ runner.temp }}/pkg
+        run: tessl review run quality --workspace kopai --threshold 50 .
+      - name: Publish
+        if: steps.published.outputs.skip == 'false'
+        working-directory: ${{ runner.temp }}/pkg
+        run: tessl plugin publish .

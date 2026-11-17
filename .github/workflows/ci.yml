@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  pull_request:
+    # labeled: adding run-evals to an open PR starts the evals job.
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Validate the plugin
+        run: npx --yes @anthropic-ai/claude-code@2.1.322 plugin validate --strict plugins/kopai
+
+      # Every merge to main is a release, so a change to the plugin or a
+      # skill must bump its version. On push, compare with the previous main
+      # too: two PRs that bump to the same version can both pass and merge.
+      - name: Check manifests agree and versions are bumped
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+        run: |
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            node scripts/check-manifests.mjs
+          else
+            node scripts/check-manifests.mjs --base "$BASE"
+          fi
+
+      - name: Stage the Tessl packages
+        run: |
+          for skill in $(node scripts/tessl-stage.mjs --list | jq -r '.[]'); do
+            node scripts/tessl-stage.mjs "$skill" "$RUNNER_TEMP/tessl/$skill"
+          done
+
+  # Real model calls, so only on PRs labelled run-evals.
+  evals:
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-evals')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # --ablation none: no no-plugin baseline arm, so the skill-fired
+      # graders count. --threshold 0.8: kopai-alert-firing and rule-proposal
+      # have loose graders and rarely pass every run; recalibrate once they
+      # are hardened.
+      - name: Run the evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: >-
+          scripts/eval.sh --trust-plugin --runs 3 --ablation none
+          --threshold 0.8 --allow-tools Bash --judge-model sonnet
+          --json evals/kopai/results/ci.json
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: eval-results
+          path: evals/kopai/results/

@@ -1,0 +1,3 @@
+# Eval mock bodies are returned to Claude verbatim (claude plugin eval).
+evals/**/mocks
+evals/**/results

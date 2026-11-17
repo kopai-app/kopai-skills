@@ -1,0 +1,37 @@
+Kopai plugin for Claude
+Copyright 2026 Kopai
+
+This plugin includes material adapted from the On-Call Kit
+(https://github.com/anthropics/oncall-kit), Copyright 2026 Anthropic PBC,
+licensed under the Apache License, Version 2.0.
+
+Adapted files keep their original copyright and SPDX headers and carry a
+"Modified for Kopai" note describing what changed. The adaptations:
+
+- oncall-skills/kopai-oncall-playbooks
+                              from skills/oncall-setup, plus templates/,
+                              eval/replay.md and ONBOARD.md
+- oncall-skills/kopai-oncall-setup/references/tag-setup.md
+                              from TAG-SETUP.md
+- oncall-skills/kopai-triage         from skills/triage (failure-class references
+                              rewritten for service telemetry in Kopai)
+- oncall-skills/kopai-handoff        from skills/handoff
+- oncall-skills/kopai-weather        from skills/weather
+- oncall-skills/kopai-oncall-playbooks/templates/ONCALL-RULES.md
+                              from the standing rules in CLAUDE.md
+- oncall-skills/kopai-verify-fix     new; expands step 9 of skills/triage
+- oncall-skills/kopai-evidence-page  new; a snapshot page, only on request
+- oncall-skills/kopai-oncall-setup   new; connects one alert channel and creates
+                              its watch routine
+- oncall-skills/kopai-triage/references/
+                              new content for Kopai, in the structure of
+                              the kit's triage references
+
+Main changes: skills are renamed with a kopai- prefix; telemetry
+capabilities (metrics, logs, traces) bind to the Kopai MCP connector;
+team-specific playbooks live in the team's own repository instead of the
+plugin; and the standing rules ship as ONCALL-RULES.md, which setup copies
+into the team's repository. Kopai is also the alerting tool: triage reads
+Kopai alerts by event id, and rule proposals use Kopai's rule editor link.
+
+The skills in skills/ and claude-skills/ are Kopai's own.
