@@ -105,12 +105,13 @@ kq.metrics("Histogram")
     try another quantile before concluding there is no data.
   - `increase`/`rate` (no `_error` key): nothing was observed.
 - `histogramQuantile` rows also carry `<alias>_low`/`_high` (the bucket the true value lies
-  in), `_coarsened` and `_error`. **Report only the value to people** ("p95 ≈ 430 ms"); use
-  the range yourself as the uncertainty around the value: the value is interpolated inside
-  the bucket, so a move that stays inside one range is weak evidence. Confirm it elsewhere
-  (e.g. trace latency) before calling it a regression, but don't discard it. When `_high` is
-  null the value is only the lower bound of the open-ended last bucket: say "p95 > 430 ms".
-  When `_low` is null, say "p95 ≤ 430 ms".
+  in), `_coarsened` and `_error`. The value is interpolated inside that bucket, so it is an
+  estimate: write it as "p95 ≈ 430 ms". When `_high` is null the value is only the lower
+  bound of the open-ended last bucket: say "p95 > 430 ms". When `_low` is null, say
+  "p95 ≤ 430 ms". Use `_low`/`_high` to judge precision: a move that stays inside one
+  bucket is weak evidence, so confirm it elsewhere (e.g. trace latency) before calling it a
+  regression, but don't discard it. Tell the user when a change is within that precision,
+  in plain words: bucket bounds and `_coarsened` mean little to most readers.
 - `_error` `"mixed_units"`: filter to one `MetricUnit`. `"no_shared_bounds"`: the series'
   bucket layouts cannot be merged; group by a series attribute. `"malformed_buckets"`: an
   exporter sent bucket counts that do not fit the bounds; find and filter out that series.
