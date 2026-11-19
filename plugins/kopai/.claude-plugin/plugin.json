@@ -1,7 +1,7 @@
 {
   "name": "kopai",
   "displayName": "Kopai",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Investigate production issues with your OpenTelemetry traces, logs and metrics in Kopai: root-cause analysis, dashboards, live pages, instrumentation help and, in Claude Tag, an on-call workflow that triages alerts, proposes alert rules, verifies fixes and writes handoffs. It never changes a system it monitors; it writes only what you ask for, such as a dashboard or instrumentation code, or an alert rule you approved.",
   "author": {
     "name": "Kopai",

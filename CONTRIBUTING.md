@@ -21,9 +21,10 @@
    production yet, it waits.
 7. **Run the evals** for skills you touched, locally or with the
    `run-evals` label, and say in the PR how many runs passed.
-8. **A new portable skill for Tessl** gets a `metadata.version` and a
-   one-line `description` in its `SKILL.md`, and its name in
-   `tessl/skills.json`.
+8. **A new skill for Tessl** gets a `metadata.version` and a one-line
+   `description` in its `SKILL.md` (and a `compatibility` line if it needs
+   a particular agent), and its folder in `tessl/skills.json`, relative to
+   `plugins/kopai`.
 9. **Keep the README honest.** A new write, a new download from npm or a
    new MCP tool goes in `plugins/kopai/README.md` under "Data and privacy".
 
