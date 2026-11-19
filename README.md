@@ -3,6 +3,23 @@
 Kopai's agent skills and its Claude plugin. This is the only place a Kopai
 skill is edited.
 
+## Install
+
+- **Claude** (Claude Code, claude.ai, Claude Tag): the `kopai` plugin from
+  the Claude Directory (not listed yet), with all of the skills below.
+- **Any other agent** (Cursor, Copilot, Codex, Gemini CLI…): the portable
+  skills, with the [skills CLI](https://github.com/vercel-labs/skills):
+
+  ```bash
+  npx skills add kopai-app/kopai-skills/plugins/kopai/skills
+  ```
+
+  This installs `root-cause-analysis`, `create-dashboard` and
+  `otel-instrumentation`, and `npx skills update` keeps them current. Leave
+  out the path and the CLI also offers the Claude-only skills.
+
+- **Tessl:** `tessl install kopai/<skill>` (see [Tessl](#tessl)).
+
 ## Layout
 
 ```
