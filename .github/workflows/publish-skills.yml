@@ -74,7 +74,8 @@ jobs:
       - name: Review skill
         if: steps.published.outputs.skip == 'false'
         working-directory: ${{ runner.temp }}/pkg
-        run: tessl review run quality --workspace kopai --threshold 50 .
+        # The package holds the skill under skills/<skill>/, not at its root.
+        run: tessl review run quality --workspace kopai --threshold 50 "skills/${{ matrix.skill }}"
       - name: Publish
         if: steps.published.outputs.skip == 'false'
         working-directory: ${{ runner.temp }}/pkg
