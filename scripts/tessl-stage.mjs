@@ -7,6 +7,12 @@
 // generated here, from the skill's SKILL.md: Tessl name kopai/<skill>, the
 // skill's description, and its metadata.version as the Tessl version.
 //
+// WHY skills/<skill>/ inside the package: Tessl packs a skill folder only
+// when `skills` names the folder, and treats a rules/ folder at the package
+// root as always-on agent rules. Staged at the root with "skills":
+// ["SKILL.md"], RCA 1.6.0 shipped without references/ and with its rules/
+// installed as Cursor rules.
+//
 // Usage:
 //   node scripts/tessl-stage.mjs <skill> <out dir>   stage one skill
 //   node scripts/tessl-stage.mjs --list              print the skills as JSON
@@ -60,14 +66,14 @@ if (problems.length > 0) {
 }
 
 rmSync(outDir, { recursive: true, force: true });
-cpSync(source, outDir, { recursive: true });
+cpSync(source, join(outDir, "skills", skill), { recursive: true });
 mkdirSync(join(outDir, ".tessl-plugin"), { recursive: true });
 const manifest = {
   name: `${config.workspace}/${skill}`,
   version,
   description,
   private: false,
-  skills: ["SKILL.md"],
+  skills: [`./skills/${skill}`],
 };
 writeFileSync(
   join(outDir, ".tessl-plugin/plugin.json"),
