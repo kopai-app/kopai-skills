@@ -38,11 +38,11 @@ jobs:
             node scripts/check-manifests.mjs --base "$BASE"
           fi
 
-      - name: Stage the Tessl packages
-        run: |
-          for skill in $(node scripts/tessl-stage.mjs --list | jq -r '.[]'); do
-            node scripts/tessl-stage.mjs "$skill" "$RUNNER_TEMP/tessl/$skill"
-          done
+      # No token: packing needs none.
+      - uses: tesslio/setup-tessl@v2
+
+      - name: Check the Tessl packages hold every skill file
+        run: scripts/tessl-check-packages.sh
 
   # Real model calls, so only on PRs labelled run-evals.
   evals:

@@ -5,7 +5,6 @@ name: Publish skills to Tessl
 # already has are skipped; CI makes sure a changed skill was bumped.
 
 permissions:
-  id-token: write
   contents: read
 
 on:
@@ -49,21 +48,34 @@ jobs:
           token: ${{ secrets.TESSL_API_TOKEN }}
       - name: Stage the package
         run: node scripts/tessl-stage.mjs "${{ matrix.skill }}" "$RUNNER_TEMP/pkg"
+      # tessl plugin info exits 1 for every failure, so read the message:
+      # only "no such version" or "no such plugin" means publish. Anything
+      # else (no token, network) fails here instead of carrying on.
       - name: Check whether this version is already published
         id: published
         working-directory: ${{ runner.temp }}/pkg
         run: |
+          if [ -z "${TESSL_TOKEN:-}" ]; then
+            echo "::error::TESSL_API_TOKEN is not set for this repository"
+            exit 1
+          fi
           tile="$(jq -r '"\(.name)@\(.version)"' .tessl-plugin/plugin.json)"
-          if tessl plugin info "$tile" --json > /dev/null 2>&1; then
+          if out="$(tessl plugin info "$tile" --json 2>&1)"; then
             echo "$tile is already published, skipping"
             echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
+          elif grep -qE 'has no version|Could not find plugin' <<< "$out"; then
+            echo "$tile is not published yet"
             echo "skip=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "$out"
+            echo "::error::Could not check whether $tile is published"
+            exit 1
           fi
       - name: Review skill
         if: steps.published.outputs.skip == 'false'
         working-directory: ${{ runner.temp }}/pkg
-        run: tessl review run quality --workspace kopai --threshold 50 .
+        # The package holds the skill under skills/<skill>/, not at its root.
+        run: tessl review run quality --workspace kopai --threshold 50 "skills/${{ matrix.skill }}"
       - name: Publish
         if: steps.published.outputs.skip == 'false'
         working-directory: ${{ runner.temp }}/pkg

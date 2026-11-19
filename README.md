@@ -31,7 +31,8 @@ plugins/kopai/                 the plugin: everything in here ships to users
 ├── oncall-skills/             Claude Tag on-call workflow, the seven kopai-* skills
 └── README.md, LICENSE, NOTICE
 evals/kopai/                   claude plugin eval cases and mocks; ships to nobody
-scripts/                       eval.sh, check-manifests.mjs, tessl-stage.mjs
+scripts/                       eval.sh, check-manifests.mjs, tessl-stage.mjs,
+                               tessl-check-packages.sh
 tessl/skills.json              which skills Tessl publishes
 test-fixtures/                 a fictional incident to dry-run on-call against a local Kopai
 ```
@@ -73,9 +74,11 @@ The skills in `tessl/skills.json` (the portable ones) are also published
 to [Tessl](https://tessl.io) as `kopai/<skill>`, one package each, so
 existing `tessl install kopai/root-cause-analysis` users keep getting
 updates. Nothing Tessl-specific ships in the plugin:
-`scripts/tessl-stage.mjs` builds each package in a temporary folder, with a
-manifest made from the skill's `SKILL.md` (its description, and its
-`metadata.version` as the Tessl version). `publish-skills.yml` publishes on
+`scripts/tessl-stage.mjs` builds each package in a temporary folder, the
+skill under `skills/<skill>/` with a manifest made from its `SKILL.md` (its
+description, and its `metadata.version` as the Tessl version), and CI's
+`scripts/tessl-check-packages.sh` checks that the package holds every file
+of the skill. `publish-skills.yml` publishes on
 every merge to `main` that changes one, and skips versions Tessl already
 has.
 
