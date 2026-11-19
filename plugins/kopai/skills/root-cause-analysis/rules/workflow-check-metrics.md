@@ -127,7 +127,8 @@ try {
   `http.server.errors` (c). Use `kq.metrics("Sum")` with `rate("Value", …)`.
 - **Latency** → trace `avg`/`max` of `Duration` (portable); `p95`/`p99` only on
   ClickHouse. For a metric-side view use `kq.metrics("Histogram")` with
-  `histogramQuantile(0.95, …)` (report only the value, e.g. "p95 ≈ 430 ms", or "p95 > 430 ms" when `_high` is null) and
+  `histogramQuantile(0.95, …)` (an estimate: "p95 ≈ 430 ms", or "p95 > 430 ms" when
+  `_high` is null; see references/metric-filters.md for judging its precision) and
   `rate("Count", …)` for request rate.
 - **Resource saturation** (CPU, memory, connections) → point-in-time `Gauge`. Use
   `kq.metrics("Gauge")`, aggregate `Value` (`avg`/`max`), `.dimension("host.name")` for
