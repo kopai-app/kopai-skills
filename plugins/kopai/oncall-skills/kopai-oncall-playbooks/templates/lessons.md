@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: example entries rewritten for service
+<!-- Modified by Reactor Studio for Kopai, 2026: example entries rewritten for service
      telemetry in Kopai. -->
 
 # lessons.md — the living incident log

@@ -6,11 +6,12 @@ description: >
   boundary, including each key service's week-over-week error rate,
   latency and volume from Kopai. Use when the weekly routine fires, or when
   someone asks for a handoff / shift summary / "catch the next on-call up".
+license: Apache-2.0
 ---
 
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: renamed from handoff; the metrics sweep and a
+<!-- Modified by Reactor Studio for Kopai, 2026: renamed from handoff; the metrics sweep and a
      "Service health" section come from Kopai queries; the drift check
      covers BASELINES.md. See NOTICE. -->
 

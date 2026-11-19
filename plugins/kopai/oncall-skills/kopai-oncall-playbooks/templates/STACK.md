@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: adds the traces capability and Kopai rows. -->
+<!-- Modified by Reactor Studio for Kopai, 2026: adds the traces capability and Kopai rows. -->
 
 # STACK.md — capability → connection map
 

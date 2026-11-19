@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: examples rewritten for a service team whose
+<!-- Modified by Reactor Studio for Kopai, 2026: examples rewritten for a service team whose
      telemetry is in Kopai; paging criteria are written as Kopai queries. -->
 
 # ONCALL.md — standing on-call policy

@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: the standing rules from the On-Call Kit's
+<!-- Modified by Reactor Studio for Kopai, 2026: the standing rules from the On-Call Kit's
      CLAUDE.md, shipped as a file the kopai-oncall-playbooks skill copies into
      the team's on-call repo. Rule 9 now names playbooks/. See NOTICE. -->
 

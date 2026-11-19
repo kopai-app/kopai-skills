@@ -11,11 +11,12 @@ description: >
   on-call here" is the kopai-oncall-setup skill. Five gated phases: never
   run more than one phase per turn, and never activate anything before
   Phase 4 sign-off.
+license: Apache-2.0
 ---
 
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: renamed from oncall-setup; telemetry binds to
+<!-- Modified by Reactor Studio for Kopai, 2026: renamed from oncall-setup; telemetry binds to
      the Kopai connector; adds service baselines (BASELINES.md); team
      playbooks live in the team's repo under playbooks/; the channel
      itself is connected by kopai-oncall-setup. See NOTICE. -->

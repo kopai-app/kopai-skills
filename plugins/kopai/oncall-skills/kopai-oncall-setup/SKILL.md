@@ -9,6 +9,7 @@ description: >
   here", "set up Kopai on-call", "connect Kopai to this channel" or "watch
   this channel for Kopai alerts". For playbooks mined from past incidents
   and an on-call repo, use kopai-oncall-playbooks afterwards.
+license: Apache-2.0
 ---
 
 # Kopai on-call setup (one channel)

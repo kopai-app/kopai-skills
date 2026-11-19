@@ -1,12 +1,15 @@
 Kopai plugin for Claude
-Copyright 2026 Kopai
+Copyright 2025-2026 Reactor Studio
 
 This plugin includes material adapted from the On-Call Kit
 (https://github.com/anthropics/oncall-kit), Copyright 2026 Anthropic PBC,
 licensed under the Apache License, Version 2.0.
 
 Adapted files keep their original copyright and SPDX headers and carry a
-"Modified for Kopai" note describing what changed. The adaptations:
+note describing what Reactor Studio changed for Kopai ("Modified by
+Reactor Studio for Kopai", or for new files written in the kit's
+structure, a note naming what they follow). Each on-call skill folder
+also carries a copy of the license as LICENSE.txt. The adaptations:
 
 - oncall-skills/kopai-oncall-playbooks
                               from skills/oncall-setup, plus templates/,
@@ -34,4 +37,5 @@ plugin; and the standing rules ship as ONCALL-RULES.md, which setup copies
 into the team's repository. Kopai is also the alerting tool: triage reads
 Kopai alerts by event id, and rule proposals use Kopai's rule editor link.
 
-The skills in skills/ and claude-skills/ are Kopai's own.
+The skills in skills/ and claude-skills/ are Reactor Studio's own, written
+for Kopai.

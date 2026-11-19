@@ -4,6 +4,10 @@
 // - every manifest of a plugin (Claude's, and OpenAI's once it exists) gives
 //   the same name and version;
 // - every skill Tessl publishes (tessl/skills.json) has a metadata.version;
+// - the root LICENSE and each on-call skill's LICENSE.txt match the plugin's
+//   LICENSE (Apache-2.0 says recipients get the license text, and the skills
+//   CLI installs single skill folders, so the on-call skills adapted from
+//   Anthropic's On-Call Kit each carry their own copy);
 // - with --base, a plugin whose files changed since that git ref has a
 //   higher version than at the base, and so does every changed skill that
 //   declares a metadata.version (Tessl skips versions it already has).
@@ -143,6 +147,20 @@ for (const skill of tessl.skills) {
     problems.push(`tessl/skills.json: ${skill} has no ${path}`);
   } else if (parseFrontmatter(readText(path)).version === undefined) {
     problems.push(`${path}: Tessl publishes it, so it needs metadata.version`);
+  }
+}
+
+// License copies, so every way of installing gets the license text.
+const license = readText("plugins/kopai/LICENSE");
+const copies = [
+  "LICENSE",
+  ...subdirs("plugins/kopai/oncall-skills").map((s) => `${s}/LICENSE.txt`),
+];
+for (const path of copies) {
+  if (!existsSync(join(ROOT, path))) {
+    problems.push(`${path}: missing; copy plugins/kopai/LICENSE here`);
+  } else if (readText(path) !== license) {
+    problems.push(`${path}: differs from plugins/kopai/LICENSE; copy it again`);
   }
 }
 

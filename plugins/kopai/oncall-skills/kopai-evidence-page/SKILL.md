@@ -9,6 +9,7 @@ description: >
   one unasked: by default the reply plus the incident link is the
   evidence. Snapshot only; for a page that refreshes from the viewer's own
   Kopai connector, use create-live-page.
+license: Apache-2.0
 ---
 
 # Kopai evidence page (snapshot, on request)

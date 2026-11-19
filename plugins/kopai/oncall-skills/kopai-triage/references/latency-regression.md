@@ -1,4 +1,4 @@
-<!-- Copyright 2026 Anthropic PBC; Copyright 2026 Kopai -->
+<!-- Copyright 2026 Anthropic PBC; Copyright 2026 Reactor Studio -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 <!-- Structure from the On-Call Kit's triage references; content written
      for Kopai. See NOTICE. -->
