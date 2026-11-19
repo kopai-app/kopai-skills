@@ -93,6 +93,9 @@ in CI (three runs per case). See [`evals/kopai/README.md`](evals/kopai/README.md
 
 ## License
 
-Apache-2.0. The on-call skills are adapted from Anthropic's
+Apache-2.0 ([`LICENSE`](LICENSE)), copyright Reactor Studio. The on-call
+skills are adapted from Anthropic's
 [On-Call Kit](https://github.com/anthropics/oncall-kit); see
-[`plugins/kopai/NOTICE`](plugins/kopai/NOTICE).
+[`plugins/kopai/NOTICE`](plugins/kopai/NOTICE). Each on-call skill folder
+carries its own `LICENSE.txt`, because the skills CLI installs single skill
+folders.

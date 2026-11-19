@@ -33,3 +33,20 @@ Validate before pushing:
 npx --yes @anthropic-ai/claude-code@2.1.322 plugin validate --strict plugins/kopai
 node scripts/check-manifests.mjs --base origin/main
 ```
+
+## Licensing
+
+The on-call skills are adapted from Anthropic's
+[On-Call Kit](https://github.com/anthropics/oncall-kit) under Apache-2.0,
+which comes with obligations:
+
+- **Keep the headers.** A file with Anthropic's `Copyright` and
+  `SPDX-License-Identifier` lines keeps them, and keeps its note saying
+  what Reactor Studio changed. Update the note when you change what it
+  describes.
+- **Mark new adaptations.** A file that takes text or structure from the
+  kit gets both copyright lines, the SPDX line and such a note, and a line
+  in `plugins/kopai/NOTICE`.
+- **Every on-call skill folder has a `LICENSE.txt`**, a copy of
+  `plugins/kopai/LICENSE`, because the skills CLI installs single skill
+  folders. CI checks the copies, and the root `LICENSE`, against it.

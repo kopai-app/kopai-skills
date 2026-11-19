@@ -6,11 +6,12 @@ description: >
   and volume from Kopai into one always-current report page, and post to
   the channel only when a defined event fires. Use when the weather
   routine fires, or when someone asks to run/update the weather report.
+license: Apache-2.0
 ---
 
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: renamed from weather; health signals are
+<!-- Modified by Reactor Studio for Kopai, 2026: renamed from weather; health signals are
      service error rate, latency and volume from Kopai instead of CI
      pipeline signals; CI-specific discounts and gates replaced with
      service-health equivalents; the report page is a canvas or a repo

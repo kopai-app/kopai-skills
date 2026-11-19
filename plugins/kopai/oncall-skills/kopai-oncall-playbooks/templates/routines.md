@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: skill names and wording point at the Kopai plugin's on-call skills. -->
+<!-- Modified by Reactor Studio for Kopai, 2026: skill names and wording point at the Kopai plugin's on-call skills. -->
 
 # routines.md — the standing work
 

@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: rewritten around Kopai's onboarding: the
+<!-- Modified by Reactor Studio for Kopai, 2026: rewritten around Kopai's onboarding: the
      Slack target, an agent token in a Bearer custom connector, the `kopai`
      bundle, the channel setup and the test message; keeps the admin
      message, the verification and the gotchas. -->

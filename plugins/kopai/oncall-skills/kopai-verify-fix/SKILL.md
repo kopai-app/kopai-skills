@@ -11,7 +11,7 @@ description: >
 license: Apache-2.0
 ---
 
-<!-- Copyright 2026 Anthropic PBC; Copyright 2026 Kopai -->
+<!-- Copyright 2026 Anthropic PBC; Copyright 2026 Reactor Studio -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 <!-- Expands step 9 of the On-Call Kit's triage skill ("watch it land")
      into its own skill for Kopai. See NOTICE. -->

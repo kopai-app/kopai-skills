@@ -15,11 +15,12 @@ description: >
   "propose an alert for this"). Do NOT use it for a question about
   slowness, errors or downtime outside on-call ("why is my API slow",
   "payments is slow", "is the API down?"): use root-cause-analysis.
+license: Apache-2.0
 ---
 
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: renamed from triage; failure classes and
+<!-- Modified by Reactor Studio for Kopai, 2026: renamed from triage; failure classes and
      references rewritten for service telemetry; evidence comes from the
      Kopai connector; team playbooks in the team's repo take precedence;
      verification hands off to kopai-verify-fix. See NOTICE. -->

@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: skill and rule names point at the
+<!-- Modified by Reactor Studio for Kopai, 2026: skill and rule names point at the
      Kopai plugin's on-call skills. Setup copies this file to eval/replay.md. -->
 
 # Replay evaluation — grading the playbooks

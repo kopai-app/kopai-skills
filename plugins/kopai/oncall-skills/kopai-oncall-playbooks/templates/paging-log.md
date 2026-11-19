@@ -1,6 +1,6 @@
 <!-- Copyright 2026 Anthropic PBC -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-<!-- Modified for Kopai, 2026: rule references point at ONCALL-RULES.md. -->
+<!-- Modified by Reactor Studio for Kopai, 2026: rule references point at ONCALL-RULES.md. -->
 
 # paging-log.md — {{YYYY-MM}}
 
