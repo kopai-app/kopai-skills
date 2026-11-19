@@ -141,10 +141,10 @@ for (const dir of subdirs("plugins")) {
 
 // Tessl takes each published skill's version from its metadata.version.
 const tessl = JSON.parse(readText("tessl/skills.json"));
-for (const skill of tessl.skills) {
-  const path = `plugins/kopai/skills/${skill}/SKILL.md`;
+for (const entry of tessl.skills) {
+  const path = `plugins/kopai/${entry}/SKILL.md`;
   if (!existsSync(join(ROOT, path))) {
-    problems.push(`tessl/skills.json: ${skill} has no ${path}`);
+    problems.push(`tessl/skills.json: ${entry} has no ${path}`);
   } else if (parseFrontmatter(readText(path)).version === undefined) {
     problems.push(`${path}: Tessl publishes it, so it needs metadata.version`);
   }

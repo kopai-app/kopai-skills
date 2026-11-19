@@ -2,9 +2,10 @@
 name: create-live-page
 description: 'Live page: a page in Claude that charts Kopai telemetry through the viewer''s Kopai connector, refreshing as they watch. Use when the Kopai connector is attached and the user wants to watch, chart or keep an eye on traces, logs or metrics, even if they never say "live page". For a dashboard inside the Kopai UI, use create-dashboard.'
 license: Apache-2.0
+compatibility: Claude only (claude.ai, Claude Desktop or Claude Code), with live pages and the Kopai connector. Other agents can't run it.
 metadata:
   author: kopai
-  version: "1.1.0"
+  version: "1.1.1"
 ---
 
 # Create a live page with Kopai

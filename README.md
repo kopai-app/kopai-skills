@@ -70,10 +70,11 @@ Directory tracks; until then there are no tags.
 
 ## Tessl
 
-The skills in `tessl/skills.json` (the portable ones) are also published
-to [Tessl](https://tessl.io) as `kopai/<skill>`, one package each, so
-existing `tessl install kopai/root-cause-analysis` users keep getting
-updates. Nothing Tessl-specific ships in the plugin:
+The skills in `tessl/skills.json` are also published to
+[Tessl](https://tessl.io) as `kopai/<skill>`, one package each, so existing
+`tessl install kopai/root-cause-analysis` users keep getting updates: the
+three portable skills, and `create-live-page`, whose `compatibility` field
+says it needs Claude. Nothing Tessl-specific ships in the plugin:
 `scripts/tessl-stage.mjs` builds each package in a temporary folder, the
 skill under `skills/<skill>/` with a manifest made from its `SKILL.md` (its
 description, and its `metadata.version` as the Tessl version), and CI's

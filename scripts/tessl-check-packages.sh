@@ -17,7 +17,8 @@ for skill in $(node "$root/scripts/tessl-stage.mjs" --list | jq -r '.[]'); do
   node "$root/scripts/tessl-stage.mjs" "$skill" "$work/$skill" > /dev/null
   (cd "$work/$skill" && tessl plugin pack --output "$work/$skill.tgz" > /dev/null)
 
-  expected="$(cd "$root/plugins/kopai/skills/$skill" && find . -type f | sed "s|^\./|skills/$skill/|" | sort)"
+  source="$root/$(node "$root/scripts/tessl-stage.mjs" --source "$skill")"
+  expected="$(cd "$source" && find . -type f | sed "s|^\./|skills/$skill/|" | sort)"
   expected="$(printf '%s\n%s\n%s\n' ".tessl-plugin/plugin.json" "tile.json" "$expected" | sort)"
   actual="$(tar -tzf "$work/$skill.tgz" | grep -v '/$' | sort)"
 

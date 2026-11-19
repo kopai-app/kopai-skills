@@ -5,6 +5,9 @@ name: Publish skills to Tessl
 # already has are skipped; CI makes sure a changed skill was bumped.
 
 permissions:
+  # id-token: Tessl signs the publish with the job's OIDC token (verified
+  # provenance); without it a publish goes out unverified.
+  id-token: write
   contents: read
 
 on:
@@ -12,6 +15,7 @@ on:
     branches: [main]
     paths:
       - "plugins/kopai/skills/**"
+      - "plugins/kopai/claude-skills/**"
       - "tessl/**"
       - "scripts/tessl-stage.mjs"
       - "scripts/lib/**"
@@ -71,6 +75,13 @@ jobs:
             echo "::error::Could not check whether $tile is published"
             exit 1
           fi
+      # A public version with a critical finding is blocked for good and its
+      # version number can't be reused, so scan first (security scans are
+      # free). The registry scans again after upload, and may still differ.
+      - name: Security scan
+        if: steps.published.outputs.skip == 'false'
+        working-directory: ${{ runner.temp }}/pkg
+        run: tessl review run security --workspace kopai --fail-on critical "skills/${{ matrix.skill }}"
       - name: Review skill
         if: steps.published.outputs.skip == 'false'
         working-directory: ${{ runner.temp }}/pkg

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Builds the Tessl package for one portable skill in a folder of its own.
+// Builds the Tessl package for one skill in tessl/skills.json, in a folder
+// of its own. tessl/skills.json lists skill folders relative to plugins/kopai.
 //
 // WHY a staging folder: Tessl needs its manifest (.tessl-plugin/plugin.json)
 // inside the folder it publishes and refuses paths outside it, but nothing
@@ -15,6 +16,7 @@
 //
 // Usage:
 //   node scripts/tessl-stage.mjs <skill> <out dir>   stage one skill
+//   node scripts/tessl-stage.mjs --source <skill>    print its folder
 //   node scripts/tessl-stage.mjs --list              print the skills as JSON
 
 import console from "node:console";
@@ -25,7 +27,7 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { readFrontmatter } from "./lib/skill-frontmatter.mjs";
@@ -35,22 +37,35 @@ const config = JSON.parse(
   readFileSync(join(ROOT, "tessl/skills.json"), "utf8")
 );
 
-const [skill, outDir] = process.argv.slice(2);
+/** Skill name (its folder's name) → folder relative to the repo root. */
+const folders = new Map(
+  config.skills.map((entry) => [basename(entry), `plugins/kopai/${entry}`])
+);
 
-if (skill === "--list") {
-  console.log(JSON.stringify(config.skills));
+const [first, second] = process.argv.slice(2);
+
+if (first === "--list") {
+  console.log(JSON.stringify([...folders.keys()]));
   process.exit(0);
 }
-if (!skill || !outDir) {
-  console.error("usage: tessl-stage.mjs <skill> <out dir> | --list");
+const skill = first === "--source" ? second : first;
+const outDir = first === "--source" ? undefined : second;
+if (!skill || (first !== "--source" && !outDir)) {
+  console.error(
+    "usage: tessl-stage.mjs <skill> <out dir> | --source <skill> | --list"
+  );
   process.exit(2);
 }
-if (!config.skills.includes(skill)) {
+if (!folders.has(skill)) {
   console.error(`${skill} is not in tessl/skills.json`);
   process.exit(1);
 }
+if (first === "--source") {
+  console.log(folders.get(skill));
+  process.exit(0);
+}
 
-const source = join(ROOT, "plugins/kopai/skills", skill);
+const source = join(ROOT, folders.get(skill));
 const { name, description, version } = readFrontmatter(
   join(source, "SKILL.md")
 );
