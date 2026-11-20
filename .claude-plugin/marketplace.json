@@ -1,0 +1,14 @@
+{
+  "name": "kopai",
+  "owner": {
+    "name": "Kopai",
+    "url": "https://kopai.app"
+  },
+  "description": "Kopai's Claude plugin, installed straight from kopai-app/kopai-skills. It follows main, which is the release.",
+  "plugins": [
+    {
+      "name": "kopai",
+      "source": "./plugins/kopai"
+    }
+  ]
+}
