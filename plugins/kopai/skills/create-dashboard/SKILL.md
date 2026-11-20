@@ -4,7 +4,7 @@ description: Build Kopai observability dashboards from OpenTelemetry metrics, lo
 license: Apache-2.0
 metadata:
   author: kopai
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Create Dashboard with Kopai
@@ -13,13 +13,19 @@ Build a dashboard by writing a short TypeScript script: design a `uiTree`, feed 
 data tile with a type-safe `kq` query, and create it via `client.createDashboard(...)`.
 The CLI stays as a fallback for one-off creates.
 
-## Component Schema (auto-generated)
+## Start with the schema and the metrics
 
-!`npx @kopai/cli dashboards schema 2>/dev/null || echo "ERROR: Cannot connect to Kopai backend. If running locally, start it with: npx @kopai/app start — If using a remote backend, check the url in your .kopairc file."`
+Before you design the tree, run these two commands from the directory that holds the
+project's `.kopairc`, and read their output:
 
-## Available Metrics
+```bash
+npx @kopai/cli dashboards schema
+npx @kopai/cli metrics discover --json
+```
 
-!`npx @kopai/cli metrics discover --json 2>/dev/null || echo "ERROR: Cannot connect to Kopai backend. If running locally, start it with: npx @kopai/app start — If using a remote backend, check the url in your .kopairc file."`
+The first prints every component and its props: build the `uiTree` only from those. The
+second lists the metrics with their `type` and `unit`. If either can't reach Kopai, start
+a local one with `npx @kopai/app start`, or check the `url` in `.kopairc` for a remote one.
 
 ## Code mode (recommended)
 
