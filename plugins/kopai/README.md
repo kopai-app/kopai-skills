@@ -157,9 +157,9 @@ Kopai's privacy policy: <https://kopai.app/privacy/>.
 Some skills run code where Claude can run Node (Claude Code, or a Claude
 Tag sandbox) and download packages from the public npm registry to do so:
 
-- `create-dashboard`: `@kopai/cli` every time the skill loads (it reads
-  the dashboard schema and your metrics with it before Claude starts),
-  then `@kopai/sdk` and `tsx` to create the dashboard;
+- `create-dashboard`: `@kopai/cli`, to read the dashboard schema and your
+  metrics before it builds anything, then `@kopai/sdk` and `tsx` to create
+  the dashboard;
 - `root-cause-analysis` code mode, only for questions that need many
   queries in a loop: `@kopai/sdk`, `tsx` and, as a fallback, `@kopai/cli`;
 - `otel-instrumentation`: `@kopai/app` (a local Kopai to test against),
@@ -170,10 +170,36 @@ The scripts call Kopai's query API: in a Claude Tag sandbox at
 the URL and with the token in a `.kopairc` file in the project or your
 home directory, the same file the Kopai CLI uses.
 
-## Report a bug
+## Troubleshooting
 
-Give the `version` from `.claude-plugin/plugin.json`. Source and issues:
-<https://github.com/kopai-app/kopai-skills>.
+- **Claude doesn't use Kopai, or says it has no Kopai tools.** The
+  plugin's Kopai connection isn't signed in. In Claude Code, run `/mcp`,
+  select `kopai` and sign in. On claude.ai, connect Kopai on the plugin's
+  Connectors tab.
+- **A question comes back with no data, though your services send
+  telemetry.** Check the time window first, then the names: the column is
+  `service.name`, not `ServiceName`, and a span's `StatusCode` is `Error`,
+  not `ERROR`. A wrong name matches nothing instead of failing.
+- **A script can't reach Kopai, or gets 401.** Code mode reads the `url`
+  and `token` from `.kopairc` in the project or your home directory. Check
+  both. For a local Kopai, start it with `npx @kopai/app start`.
+- **A script fails while downloading packages.** Code mode needs Node.js
+  and the public npm registry. Claude Tag's default "Limited access"
+  sandbox reaches the npm registry; a stricter environment needs it added.
+- **On-call in Claude Tag doesn't answer an alert.** Press **Send test
+  message** in Kopai › Alerting › Slack. If Claude doesn't answer it,
+  follow "Verifying it worked" in
+  `oncall-skills/kopai-oncall-setup/references/tag-setup.md`.
+
+## Support
+
+- **Questions and bugs:** open an issue at
+  <https://github.com/kopai-app/kopai-skills/issues>, with the `version`
+  from `.claude-plugin/plugin.json`. You can also email
+  <hello@kopai.app>.
+- **Security problems:** don't open a public issue. Report them privately
+  as the [security policy](https://github.com/kopai-app/kopai-skills/security/policy)
+  describes.
 
 ## Credits
 
