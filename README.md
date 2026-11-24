@@ -5,8 +5,18 @@ skill is edited.
 
 ## Install
 
-- **Claude** (Claude Code, claude.ai, Claude Tag): the `kopai` plugin from
-  the Claude Directory (not listed yet), with all of the skills below.
+- **Claude** (Claude Code, claude.ai, Claude Tag): the `kopai` plugin, with
+  all of the skills below. It isn't in the Claude Directory yet. In Claude
+  Code, install it from this repo's marketplace:
+
+  ```
+  /plugin install kopai --marketplace kopai-app/kopai-skills
+  ```
+
+  On Claude Code before 2.1.275, run
+  `/plugin marketplace add kopai-app/kopai-skills`, then
+  `/plugin install kopai@kopai`.
+
 - **Any other agent** (Cursor, Copilot, Codex, Gemini CLI…): the portable
   skills, with the [skills CLI](https://github.com/vercel-labs/skills):
 
@@ -23,6 +33,7 @@ skill is edited.
 ## Layout
 
 ```
+.claude-plugin/marketplace.json  marketplace for installing the plugin from this repo
 plugins/kopai/                 the plugin: everything in here ships to users
 ├── .claude-plugin/            Claude manifest (loads all three skill folders) and icon
 ├── .mcp.json                  Kopai's MCP server, https://api.kopai.app/v2/mcp
@@ -54,9 +65,9 @@ plugin does for users.
 
 ## `main` is the release
 
-Every merge to `main` is a release: the Claude Directory picks it up, and
-Tessl publishes the portable skills that changed. (A marketplace file for
-installing straight from this repo comes later.) So:
+Every merge to `main` is a release: the Claude Directory picks it up,
+Claude Code installs from this repo's marketplace get it at their next
+update, and Tessl publishes the portable skills that changed. So:
 
 - a PR that changes `plugins/kopai/` bumps `version` in every manifest,
   and a changed skill that has a `metadata.version` in its `SKILL.md`
