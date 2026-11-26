@@ -46,12 +46,18 @@ It gives Claude:
 - on a workspace with Kopai alerting, five read-only alert tools:
   `alerts_list`, `alert_get`, `alert_history`, `alert_rules_list` and
   `alert_rule_backtest`;
-- `alert_rule_create`, only when a Kopai owner gave the channel's `agent`
-  token the grant "may create alert rules".
+- through the channel's `agent` token, `alert_rule_create`, only when a
+  Kopai owner gave the token the grant "may create alert rules";
+- through your own sign-in, when you are a Kopai owner or admin, three
+  alert write tools: `alert_rule_create`, `alert_rule_update` and
+  `alert_rule_set_enabled` (create, change, pause and resume rules).
 
-The skills never change or pause a rule on their own, and the channel's
-`agent` token never can. An owner or admin changes rules as themselves,
-in Kopai's rule editor; Claude links it.
+The skills never change or pause a rule: they never call
+`alert_rule_update` or `alert_rule_set_enabled`, even when your sign-in
+offers them, and link Kopai's rule editor instead, where an owner or
+admin makes the change. The channel's `agent` token can never change or
+pause a rule. Outside the skills, Claude can use your sign-in's write
+tools when you ask it to, as you.
 
 ## Use it in Claude Code or on claude.ai
 
@@ -102,7 +108,8 @@ owns, which the optional `kopai-oncall-playbooks` skill fills in:
 - `lessons.md` and `paging-log.md`: what Claude learns and decides
 
 Plugin updates never touch these files, and Claude's improvements to your
-playbooks arrive as pull requests to your repo.
+playbooks arrive as pull requests to your repo. In Claude Tag, a Claude
+admin adds the repo to the `kopai` bundle; the setup guide says how.
 
 ### Set it up
 
@@ -113,7 +120,7 @@ your personal login." If Kopai is connected with someone's own login,
 everyone in the channel acts as them, and Claude says so on its first
 alert.
 
-1. **Kopai › Alerting › Slack:** Add to Slack, choosing the alert channel.
+1. **Kopai › Alerting › Targets:** Add to Slack, choosing the alert channel.
 2. **Kopai › Tokens:** create an `agent` token. To let Claude create rules a
    person approved, an owner switches on "may create alert rules".
 3. **Claude › Organization settings › Claude Tag › Bundles** (an Owner, or
@@ -127,7 +134,7 @@ alert.
 4. **In the alert channel,** as a top-level message:
    `@Claude set up Kopai on-call here`. Claude checks it can reach Kopai
    and creates the watch routine when you say yes.
-5. **Kopai › Alerting › Slack › Send test message.** Claude answers it in
+5. **Kopai › Alerting › Targets › Send test message.** Claude answers it in
    its thread with a health check; that reply means onboarding worked.
 
 Don't put the connector on the Connectors tab (it would apply in every
@@ -135,7 +142,10 @@ channel), and remove any Kopai sign-in (an MCP Connector) in the channel.
 Slack Connect channels are not supported. The full guide, with the
 Instructions text, the message to send your admins, the fallbacks for
 getting the plugin and the known limits, is
-`oncall-skills/kopai-oncall-setup/references/tag-setup.md`.
+`oncall-skills/kopai-oncall-setup/references/tag-setup.md`. Kopai's docs
+walk through the same setup: <https://kopai.app/docs/claude-on-call/>.
+Without Claude Tag, Claude can check your alerts on a schedule instead:
+<https://kopai.app/docs/claude-scheduled-checks/>.
 
 ## Data and privacy
 
@@ -150,7 +160,10 @@ It writes only:
   `root-cause-analysis` for one;
 - your application's code and dependencies, when you ask
   `otel-instrumentation` to instrument it;
-- with the opt-in, new Kopai alert rules.
+- with the `agent` token's opt-in, new Kopai alert rules that a person
+  approved in the thread;
+- with your own sign-in as a Kopai owner or admin, the alert rules you
+  ask Claude to create, change, pause or resume.
 
 Kopai's privacy policy: <https://kopai.app/privacy/>.
 
@@ -187,7 +200,7 @@ home directory, the same file the Kopai CLI uses.
   and the public npm registry. Claude Tag's default "Limited access"
   sandbox reaches the npm registry; a stricter environment needs it added.
 - **On-call in Claude Tag doesn't answer an alert.** Press **Send test
-  message** in Kopai › Alerting › Slack. If Claude doesn't answer it,
+  message** in Kopai › Alerting › Targets. If Claude doesn't answer it,
   follow "Verifying it worked" in
   `oncall-skills/kopai-oncall-setup/references/tag-setup.md`.
 
