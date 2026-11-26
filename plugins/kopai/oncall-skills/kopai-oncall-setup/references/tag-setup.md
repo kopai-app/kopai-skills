@@ -169,12 +169,15 @@ fallback.
 - **Which connector a page calls** when Claude publishes one from Slack.
   So evidence pages from the channel are snapshots: the numbers are baked
   in and viewing calls nothing.
-- **Which Kopai tools a session uses** when the bundle's connection and a
-  person's own Kopai connector are both present. Kopai checks every call
-  against the credential that made it, either way.
 
-## Two gotchas worth knowing up front
+## Three gotchas worth knowing up front
 
+- **A person's own Kopai connector serves only them.** In a channel,
+  Claude uses a member's own claude.ai Kopai connector only for requests
+  that member makes, after they allow it, and routines always use the
+  channel's access
+  ([personal connectors](https://claude.com/docs/claude-tag/concepts/personal-connectors.md)).
+  Kopai checks every call against the credential that made it.
 - **DMs are different.** A DM with Claude runs on _your_ claude.ai seat
   with your connectors, not the channel's setup. Do on-call work in the
   channel, where the connections and audit trail live.

@@ -115,9 +115,11 @@ link is safe to post in a busy channel.
 - **Human installs (the default).** Post the proposal; a person opens the
   link and saves. That is your whole involvement.
 - **Claude creates (opt-in).** Only when `ONCALL.md` records it **and** the
-  `alert_rule_create` tool is present. The tool is present only when a
-  Kopai owner gave the channel's `agent` token the grant "may create
-  alert rules".
+  `alert_rule_create` tool is present. Kopai offers the tool to every
+  `agent` token, and to an owner's or admin's own sign-in, but accepts a
+  creation from an `agent` token only when a Kopai owner gave it the grant
+  "may create alert rules"; without the grant, the call is refused with
+  the editor link (below).
   1. Post the proposal as above, ending with: "Reply **yes** in this
      thread to have me create it."
   2. Wait for an explicit yes from a person, in this thread, for this rule.
@@ -135,7 +137,11 @@ when the grant was removed or the workspace's daily cap for Claude-created
 rules is reached. Its `remedies` lines hold the editor link, and with the
 grant off a link to the token on Kopai's Tokens page. Post those lines as
 they are and stop; do not retry. `invalid_input` names the field: fix your
-own mistake once, then fall back to the editor link.
+own mistake once, then fall back to the editor link. The exception is
+`approval_url`: if Kopai says it is only for agent tokens, Kopai is
+connected with someone's own sign-in. Never retry without it, because the
+rule would be created as that person, with no record of the approval: post
+the editor link.
 
 **Existing rules change only in Kopai, by an owner or admin, as them.**
 Never call `alert_rule_update` or `alert_rule_set_enabled`, even when a
