@@ -152,10 +152,18 @@ Without Claude Tag, Claude can check your alerts on a schedule instead:
 The plugin sends requests to Kopai's MCP server at
 `https://api.kopai.app/v2/mcp`, with your sign-in or the credential your
 admin configured. It reads telemetry and alerts from your Kopai workspace.
+In Claude Tag, the on-call skills also read from the other tools your team
+connected to the channel and listed in the on-call repo's `STACK.md`, such
+as GitHub (code owners, pull requests, deploys), a pager (PagerDuty or
+similar), a feature-flag tool, or another metrics or log tool. They only
+read from these tools, except to send a page (below).
+
 It writes only:
 
 - to your on-call repo, your Slack channels, and the Claude pages or
   Slack canvases you ask for;
+- a page through your team's pager, when an alert meets the paging
+  criteria in your `ONCALL.md`;
 - a Kopai dashboard, when you ask `create-dashboard` or
   `root-cause-analysis` for one;
 - your application's code and dependencies, when you ask
@@ -168,7 +176,8 @@ It writes only:
 Kopai's privacy policy: <https://kopai.app/privacy/>.
 
 Some skills run code where Claude can run Node (Claude Code, or a Claude
-Tag sandbox) and download packages from the public npm registry to do so:
+Tag sandbox) and download packages to do so, from the public npm registry
+unless noted:
 
 - `create-dashboard`: `@kopai/cli`, to read the dashboard schema and your
   metrics before it builds anything, then `@kopai/sdk` and `tsx` to create
@@ -176,7 +185,9 @@ Tag sandbox) and download packages from the public npm registry to do so:
 - `root-cause-analysis` code mode, only for questions that need many
   queries in a loop: `@kopai/sdk`, `tsx` and, as a fallback, `@kopai/cli`;
 - `otel-instrumentation`: `@kopai/app` (a local Kopai to test against),
-  `@kopai/cli`, and the OpenTelemetry packages for your language.
+  `@kopai/cli`, and the OpenTelemetry packages for your language, from
+  that language's package registry (npm, PyPI, Maven Central, the Go
+  module proxy, NuGet and so on).
 
 The scripts call Kopai's query API: in a Claude Tag sandbox at
 `https://api.kopai.app/v2`, with the channel's credential; elsewhere at
