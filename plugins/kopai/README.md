@@ -7,9 +7,9 @@ Slack channels), where it can also go on call with your team.
 
 Claude investigates, proposes and verifies; people decide and act. The
 plugin never changes a system it monitors. It writes only what you ask
-for: a dashboard, a Claude page, instrumentation code in your application
-or, with the opt-in, a new Kopai alert rule that a person approved in the
-thread. "Data and privacy" below lists every write.
+for, such as a dashboard, a Claude page, instrumentation code in your
+application, or a Kopai alert rule. "Data and privacy" below lists every
+write.
 
 ## What's in it
 
