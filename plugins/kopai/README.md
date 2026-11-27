@@ -71,6 +71,14 @@ Then ask in your own words: "why is checkout slow since this morning?",
 "chart p95 latency for the payments service", "add tracing to this
 service".
 
+## Use it in Grok Build
+
+Install `kopai` from xAI's plugin marketplace in Grok Build. Grok gets the
+same Kopai MCP server and the three skills in `skills/`; the Claude pages
+and on-call skills need Claude and are not included. Grok asks you to sign
+in to Kopai the first time, and then acts as you, with the same tools and
+limits as listed above.
+
 ## On-call in Claude Tag
 
 ### How Claude handles a Kopai alert
