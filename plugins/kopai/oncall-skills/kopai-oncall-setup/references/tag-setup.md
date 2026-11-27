@@ -3,7 +3,8 @@
 <!-- Modified by Reactor Studio for Kopai, 2026: rewritten around Kopai's onboarding: the
      Slack target, an agent token in a Bearer custom connector, the `kopai`
      bundle, the channel setup and the test message; keeps the admin
-     message, the verification and the gotchas. -->
+     message, the verification, the repository grant (optional here, for
+     teams with an on-call repo) and the gotchas. -->
 
 # Getting Claude Tag ready for Kopai on-call
 
@@ -30,7 +31,7 @@ token into Slack.
 
 ## The steps
 
-1. **Kopai › Alerting › Slack** (a Kopai owner or admin): **Add to Slack**,
+1. **Kopai › Alerting › Targets** (a Kopai owner or admin): **Add to Slack**,
    choosing the alert channel. Kopai posts its alerts there.
 2. **Kopai › Tokens** (a Kopai owner or admin): create an **`agent` token**
    for Claude Tag. Only if the team wants Claude to create rules a person
@@ -46,6 +47,11 @@ token into Slack.
      you approve it under **Notifications → Requests**. Don't add a path
      prefix: setup links don't carry one.
    - the **`kopai` plugin** (see "Getting the plugin" below);
+   - **only if the team keeps an on-call repo** (the
+     `kopai-oncall-playbooks` skill): a **Repository**, that repo. Adding
+     one needs the Claude GitHub App on the repo's GitHub organization
+     (**Organization settings › Git providers**). Claude pushes branches
+     and opens pull requests there, so protect the default branch;
    - **Instructions**, with this text:
 
      > Kopai is this team's observability backend (traces, logs, metrics,
@@ -60,7 +66,7 @@ token into Slack.
    there yet, then post a **top-level** message: `@Claude set up Kopai
 on-call here`. Claude checks it can reach Kopai, proposes the watch
    routine, and creates it when you say yes.
-5. **Kopai › Alerting › Slack** (anyone with access): press **Send test
+5. **Kopai › Alerting › Targets** (anyone with access): press **Send test
    message**. Claude answers it in its thread with a health check: the
    identity in use, the alert rules it sees, the last alert, and that the
    watch is running. That reply means onboarding worked.
@@ -103,7 +109,7 @@ read the channel.
 > channel}}**, with Kopai's plugin for Claude (`kopai`). It
 > needs two one-time steps:
 >
-> **Kopai (an owner or admin):** Alerting › Slack › Add to Slack, choosing #{{alert channel}}; then Tokens › create an `agent` token for Claude Tag.
+> **Kopai (an owner or admin):** Alerting › Targets › Add to Slack, choosing #{{alert channel}}; then Tokens › create an `agent` token for Claude Tag.
 > {{Leave "may create alert rules" off. / Switch on "may create alert
 > rules" (owner only).}}
 >
@@ -113,6 +119,10 @@ read the channel.
 > link for another admin" so the Kopai admin pastes it directly), the
 > `kopai` plugin, the Instructions text from the plugin's setup
 > guide, and Where it applies: #{{alert channel}}.
+>
+> {{Only with an on-call repo:}} please also add our on-call repo,
+> {{repo URL}}, to the same bundle as a Repository, so Claude can read
+> our playbooks and open pull requests with what it learns.
 >
 > Please don't connect Kopai by signing in: everyone in the channel would
 > act as you. Claude only reads and proposes; {{it never creates alert
@@ -130,6 +140,12 @@ The test message in step 5 is the check. If Claude doesn't answer it:
    the admin used a sign-in: fix it as above.
 3. `@Claude what routines are set up here?` — the Kopai watch should be
    there; if not, repeat step 4.
+
+With an on-call repo, also check that the channel reaches it:
+`@Claude read ONCALL.md from {{repo}}`. Claude should quote it. Name the
+repo, because Claude clones a granted repository only when a message names
+it. If Claude can't read it, the repo isn't in a bundle that applies here,
+or the Claude GitHub App isn't connected to the repo's GitHub organization.
 
 Send the admin the specific gap, not the whole checklist again.
 
@@ -153,12 +169,15 @@ fallback.
 - **Which connector a page calls** when Claude publishes one from Slack.
   So evidence pages from the channel are snapshots: the numbers are baked
   in and viewing calls nothing.
-- **Which Kopai tools a session uses** when the bundle's connection and a
-  person's own Kopai connector are both present. Kopai checks every call
-  against the credential that made it, either way.
 
-## Two gotchas worth knowing up front
+## Three gotchas worth knowing up front
 
+- **A person's own Kopai connector serves only them.** In a channel,
+  Claude uses a member's own claude.ai Kopai connector only for requests
+  that member makes, after they allow it, and routines always use the
+  channel's access
+  ([personal connectors](https://claude.com/docs/claude-tag/concepts/personal-connectors.md)).
+  Kopai checks every call against the credential that made it.
 - **DMs are different.** A DM with Claude runs on _your_ claude.ai seat
   with your connectors, not the channel's setup. Do on-call work in the
   channel, where the connections and audit trail live.

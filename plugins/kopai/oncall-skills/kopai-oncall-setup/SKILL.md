@@ -94,8 +94,8 @@ Finish with one short message:
 - how many alert rules are visible, and the last alert (rule name,
   transition and time), or "no alerts yet";
 - that the watch is installed;
-- the next step: "In Kopai, open **Alerting › Slack** and press **Send test
-  message**. I'll answer it in its thread."
+- the next step: "In Kopai, open **Alerting › Targets** and press **Send
+  test message**. I'll answer it in its thread."
 
 Optional next steps, one line each: everyone who wants to write rules as
 themselves connects Kopai on claude.ai; a team that wants playbooks from
