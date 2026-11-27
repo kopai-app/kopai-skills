@@ -31,8 +31,8 @@ A Go or Java SDK left on its default will try it — `setup-environment.md` cove
 curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4318/v1/traces \
   -H 'Content-Type: application/json' -d '{"resourceSpans":[]}'
 
-# API server answers queries
-curl -s http://localhost:8000/signals/traces | head -c 200
+# API server answers: any status but 000 (no connection) means it is listening
+curl -s -o /dev/null -w '%{http_code}\n' http://localhost:8000/signals/traces
 ```
 
 Check the endpoint in the shell that **launched the app**. A correction exported
