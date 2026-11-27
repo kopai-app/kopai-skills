@@ -8,10 +8,11 @@ Set up OpenTelemetry for Java applications using the Java agent for automatic in
 
 ## Install
 
-```bash
-# Download the latest OpenTelemetry Java agent
-curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
-```
+Get `opentelemetry-javaagent.jar` as OpenTelemetry's
+[Java agent guide](https://opentelemetry.io/docs/zero-code/java/agent/getting-started/)
+describes. If the project already pins an agent version, in its build or its
+Dockerfile, use that one. The commands below expect the JAR in the working
+directory; otherwise give its path.
 
 ## Configuration
 

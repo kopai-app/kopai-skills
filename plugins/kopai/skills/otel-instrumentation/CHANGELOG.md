@@ -1,5 +1,11 @@
 # kopai/otel-instrumentation
 
+## 2.1.1
+
+### Patch Changes
+
+- `lang-java.md` links to OpenTelemetry's Java agent guide for getting `opentelemetry-javaagent.jar`, instead of a `curl` command that fetched the latest release. The Claude Directory's validation flags a download followed by running the downloaded file, and the agent version is now the project's choice.
+
 ## 2.1.0
 
 ### Minor Changes
