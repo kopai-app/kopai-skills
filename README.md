@@ -7,6 +7,8 @@ skill is edited.
 
 - **Claude** (Claude Code, claude.ai, Claude Tag): the `kopai` plugin from
   the Claude Directory (not listed yet), with all of the skills below.
+- **Grok Build:** the `kopai` plugin from xAI's plugin marketplace (not
+  listed yet), with the Kopai MCP server and the portable skills.
 - **Any other agent** (Cursor, Copilot, Codex, Gemini CLI…): the portable
   skills, with the [skills CLI](https://github.com/vercel-labs/skills):
 
@@ -25,6 +27,7 @@ skill is edited.
 ```
 plugins/kopai/                 the plugin: everything in here ships to users
 ├── .claude-plugin/            Claude manifest (loads all three skill folders) and icon
+├── .grok-plugin/              Grok Build manifest (loads only skills/)
 ├── .mcp.json                  Kopai's MCP server, https://api.kopai.app/v2/mcp
 ├── skills/                    portable skills: root-cause-analysis, create-dashboard, otel-instrumentation
 ├── claude-skills/             Claude-only: create-live-page (needs Claude's page runtime)
@@ -38,8 +41,8 @@ test-fixtures/                 a fictional incident to dry-run on-call against a
 ```
 
 One plugin, with skills in folders that each platform's manifest selects:
-Claude's loads all three; an OpenAI manifest (ChatGPT and Codex, not added
-yet) will load only `skills/`.
+Claude's loads all three; Grok Build's loads only `skills/`, and so will an
+OpenAI manifest (ChatGPT and Codex, not added yet).
 
 - **`skills/`** works with any agent that has the Kopai connector or can
   run Node.

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Checks versions before a merge, because every merge to main is a release:
 //
-// - every manifest of a plugin (Claude's, and OpenAI's once it exists) gives
-//   the same name and version;
+// - every manifest of a plugin (Claude's, Grok's, and OpenAI's once it
+//   exists) gives the same name and version;
 // - every skill Tessl publishes (tessl/skills.json) has a metadata.version;
 // - the root LICENSE and each on-call skill's LICENSE.txt match the plugin's
 //   LICENSE (Apache-2.0 says recipients get the license text, and the skills
@@ -28,7 +28,11 @@ import { parseFrontmatter } from "./lib/skill-frontmatter.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 /** Manifest locations inside a plugin folder, one per platform. */
-const MANIFESTS = [".claude-plugin/plugin.json", ".codex-plugin/plugin.json"];
+const MANIFESTS = [
+  ".claude-plugin/plugin.json",
+  ".codex-plugin/plugin.json",
+  ".grok-plugin/plugin.json",
+];
 
 const VERSION = /^\d+\.\d+\.\d+$/;
 
