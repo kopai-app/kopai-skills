@@ -95,13 +95,17 @@ Differences from the SDK in connector mode:
 - A time series has no row for a bucket with no data.
 
 **Credentials.** In connector mode the agent never handles a Kopai token:
-the MCP server's sign-in covers it. Code mode reads a token from
-`.kopairc`; if there is none, ask the user to run `npx @kopai/cli login`.
-Never ask anyone to paste a token into the conversation or a thread.
+the MCP server's sign-in covers it. Outside a Claude Tag sandbox (below),
+code mode reads a token from `.kopairc`. If there is none, ask the user to
+create a CLI token at `https://app.kopai.app/tokens` and run
+`npx @kopai/cli login` in their own terminal (it prompts for the token).
+Don't run `login` yourself. Never ask anyone to paste a token into the
+conversation or a thread.
 
 **Code mode in a Claude Tag sandbox (Claude Tag only).** In a Claude Tag
 channel, Kopai access is a credential the admin attached to the channel,
-applied outside the sandbox. The sandbox has no `.kopairc` and needs none: requests to `api.kopai.app` get the channel's Kopai credential
+applied outside the sandbox. The sandbox has no `.kopairc` and needs
+none: requests to `api.kopai.app` get the channel's Kopai credential
 attached on the way out. Connect with
 `clientFromConfig({ url: "https://api.kopai.app/v2" })` and no token. If
 requests come back unauthorized, the channel's Kopai connection doesn't

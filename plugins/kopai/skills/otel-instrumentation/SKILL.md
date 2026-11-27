@@ -36,6 +36,11 @@ finished while an assertion is red.
 | 5   | **Assert** — [validate-traces](references/validate-traces.md), then [validate-logs](references/validate-logs.md), [validate-metrics](references/validate-metrics.md), [validate-shutdown](references/validate-shutdown.md) | Every assertion passes. The loop is **green**                                                                                             |
 | 6   | **Fix** — the matching `troubleshoot-*` rule under **Fix it** below                                                                                                                                                        | Return to step 4 and re-drive. Never stop on a red assertion                                                                              |
 
+Every `npx @kopai/cli` command in this skill reads the local Kopai. If the project or
+your home directory has a `.kopairc` (for example from `kopai login` to a hosted
+workspace), the CLI reads that instance instead: add `--url http://localhost:8000` to
+each command. Status filters are case-sensitive: `--status-code Error`, not `ERROR`.
+
 Steps 4–6 are a loop, not a sequence. Report the instrumentation complete only when
 step 5 is green against traffic you drove in step 4 of the _same_ run.
 

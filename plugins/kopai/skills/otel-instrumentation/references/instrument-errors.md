@@ -99,11 +99,11 @@ You drove deliberate failures in `drive-traffic.md`, so these must return rows:
 ```bash
 # every failure carries ERROR status
 npx @kopai/cli traces search --resource-attr "validation.run_id=$RUN_ID" \
-  --status-code ERROR --json | jq 'length'
+  --status-code Error --json | jq 'length'
 
 # and every one of them carries a slug
 npx @kopai/cli traces search --resource-attr "validation.run_id=$RUN_ID" \
-  --status-code ERROR --json \
+  --status-code Error --json \
   | jq -r '.[] | [.SpanName, (.SpanAttributes["exception.slug"] // "NO-SLUG")] | @tsv'
 ```
 

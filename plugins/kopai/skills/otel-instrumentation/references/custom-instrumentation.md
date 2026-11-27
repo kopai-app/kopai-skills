@@ -370,7 +370,7 @@ slugs — that distinction is the whole value.
 
 ```bash
 npx @kopai/cli traces search --resource-attr "validation.run_id=$RUN_ID" \
-  --status-code ERROR --json \
+  --status-code Error --json \
   | jq -r '.[] | select(.SpanAttributes["exception.slug"] == null) | .SpanName' | sort -u
 ```
 
