@@ -187,7 +187,8 @@ unless noted:
 - `otel-instrumentation`: `@kopai/app` (a local Kopai to test against),
   `@kopai/cli`, and the OpenTelemetry packages for your language, from
   that language's package registry (npm, PyPI, Maven Central, the Go
-  module proxy, NuGet and so on).
+  module proxy, NuGet and so on) or, for the Java agent, OpenTelemetry's
+  releases on GitHub.
 
 The scripts call Kopai's query API: in a Claude Tag sandbox at
 `https://api.kopai.app/v2`, with the channel's credential; elsewhere at
