@@ -1,10 +1,10 @@
 ---
 name: otel-instrumentation
-description: Instrument applications with the OpenTelemetry SDK and prove the telemetry is good by validating it against a local Kopai backend. Use when setting up observability, adding tracing/logging/metrics, deciding what to instrument or which attributes to add, retrofitting OTel into an existing codebase, threading context through call chains, configuring sampling, or when traces/logs/metrics aren't appearing after setup. Also use when users say things like "my traces aren't showing up", "I don't see any data", or "how do I add observability to my app". Do NOT use to investigate existing telemetry for a root cause (use root-cause-analysis), to build dashboards (use create-dashboard), or to instrument LLM and agent calls (use otel-genai-instrumentation).
+description: Instrument applications with the OpenTelemetry SDK and prove the telemetry is good by validating it against a local Kopai backend. Use when setting up observability, adding tracing/logging/metrics, deciding what to instrument or which attributes to add, retrofitting OTel into an existing codebase, threading context through call chains, configuring sampling, or when traces/logs/metrics aren't appearing after setup. Also use when users say things like "my traces aren't showing up", "I don't see any data", or "how do I add observability to my app". Do NOT use to investigate existing telemetry for a root cause (use root-cause-analysis), to build dashboards (use create-dashboard), or to instrument LLM and agent calls (use otel-genai-instrumentation if it is installed).
 license: Apache-2.0
 metadata:
   author: kopai
-  version: "2.1.2"
+  version: "2.1.3"
 ---
 
 # OpenTelemetry Instrumentation with Kopai
@@ -35,6 +35,11 @@ finished while an assertion is red.
 | 4   | **Drive** traffic yourself — [drive-traffic](references/drive-traffic.md)                                                                                                                                                  | Every discovered entry point hit at least once **and** at least one deliberate failure driven                                             |
 | 5   | **Assert** — [validate-traces](references/validate-traces.md), then [validate-logs](references/validate-logs.md), [validate-metrics](references/validate-metrics.md), [validate-shutdown](references/validate-shutdown.md) | Every assertion passes. The loop is **green**                                                                                             |
 | 6   | **Fix** — the matching `troubleshoot-*` rule under **Fix it** below                                                                                                                                                        | Return to step 4 and re-drive. Never stop on a red assertion                                                                              |
+
+Every `npx @kopai/cli` command in this skill reads the local Kopai. If the project or
+your home directory has a `.kopairc` (for example from `kopai login` to a hosted
+workspace), the CLI reads that instance instead: add `--url http://localhost:8000` to
+each command. Status filters are case-sensitive: `--status-code Error`, not `ERROR`.
 
 Steps 4–6 are a loop, not a sequence. Report the instrumentation complete only when
 step 5 is green against traffic you drove in step 4 of the _same_ run.
@@ -172,7 +177,7 @@ Deep dives — load only when the task needs them:
 
 ## Related skills
 
-- **otel-genai-instrumentation** — LLM, agent, and tool-call instrumentation
+- **otel-genai-instrumentation** (if installed) — LLM, agent, and tool-call instrumentation
 - **root-cause-analysis** — investigating telemetry once it is flowing. Instrument for the
   questions that skill asks: who was affected, what changed, where the time went
 - **create-dashboard** — visualising the signals you emit here

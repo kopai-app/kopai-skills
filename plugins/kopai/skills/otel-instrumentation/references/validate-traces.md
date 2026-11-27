@@ -117,7 +117,7 @@ You drove deliberate failures, so this must return rows.
 
 ```bash
 npx @kopai/cli traces search --resource-attr "validation.run_id=$RUN_ID" \
-  --status-code ERROR --json | jq 'length'
+  --status-code Error --json | jq 'length'
 ```
 
 **Pass:** roughly the number of failures you drove.
@@ -128,7 +128,7 @@ Then check those failures carry a **slug**:
 
 ```bash
 npx @kopai/cli traces search --resource-attr "validation.run_id=$RUN_ID" \
-  --status-code ERROR --json \
+  --status-code Error --json \
   | jq -r '.[] | [.SpanName, (.SpanAttributes["exception.slug"] // "NO-SLUG")] | @tsv'
 ```
 

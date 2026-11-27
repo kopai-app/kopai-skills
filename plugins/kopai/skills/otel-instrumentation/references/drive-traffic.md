@@ -121,8 +121,9 @@ curl -s -o /dev/null -w "%{http_code}\n" "$BASE/api/admin"              # unauth
 curl -s -o /dev/null -w "%{http_code}\n" "$BASE/no-such-route"          # 404
 ```
 
-If the service depends on something you can stop — a database, a cache, an upstream —
-stop it and drive one more request. That is the only way to see the dependency-failure
+If the service runs locally and depends on something you can stop — a local database,
+cache or upstream — ask the user first, then stop it and drive one more request. Never
+stop a shared or production service. That is the only way to see the dependency-failure
 path instrumented.
 
 ## Don't lose the tail

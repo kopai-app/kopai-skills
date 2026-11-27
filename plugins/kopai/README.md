@@ -1,9 +1,10 @@
 # Kopai
 
-A Claude plugin for investigating production issues with your
-OpenTelemetry traces, logs and metrics in [Kopai](https://kopai.app). It
-works in Claude Code, on claude.ai and in Claude Tag (Claude in your
-Slack channels), where it can also go on call with your team.
+A plugin for investigating production issues with your OpenTelemetry
+traces, logs and metrics in [Kopai](https://kopai.app). It works in
+Claude Code, on claude.ai and in Claude Tag (Claude in your Slack
+channels), where it can also go on call with your team, and in Grok
+Build, with the skills in `skills/` (see "Use it in Grok Build").
 
 Claude investigates, proposes and verifies; people decide and act. The
 plugin never changes a system it monitors. It writes only what you ask
@@ -76,7 +77,7 @@ service".
 Install `kopai` from xAI's plugin marketplace in Grok Build. Grok gets the
 Kopai MCP server and the three skills in `skills/`; the Claude pages and
 on-call skills need Claude and are not included. Grok asks you to sign in
-to Kopai the first time (or run `/mcps`), and then acts as you:
+to Kopai the first time it uses the MCP server, and then acts as you:
 
 - `query` and `metrics_discover`, and on a workspace with Kopai alerting
   the five read-only alert tools listed above;
@@ -84,9 +85,13 @@ to Kopai the first time (or run `/mcps`), and then acts as you:
   `alert_rule_update` and `alert_rule_set_enabled`. No skill calls the
   last two; Grok uses them only when you ask it to.
 
-`create-dashboard` and `otel-instrumentation` run code with the Kopai SDK
-and CLI rather than the MCP server. They need a Kopai token in a
-`.kopairc` file, as described under "Data and privacy".
+`create-dashboard`, and `root-cause-analysis` in code mode, run code with
+the Kopai SDK and CLI rather than the MCP server. For your hosted
+workspace they need a Kopai token in a `.kopairc` file: create a CLI
+token at <https://app.kopai.app/tokens>, run `npx @kopai/cli login` once
+in the project and paste it at the prompt (add `--global` to keep it out
+of the project). `otel-instrumentation` tests against a local Kopai it
+starts itself and needs no token. See "Data and privacy".
 
 ## On-call in Claude Tag
 
@@ -169,6 +174,10 @@ Without Claude Tag, Claude can check your alerts on a schedule instead:
 The plugin sends requests to Kopai's MCP server at
 `https://api.kopai.app/v2/mcp`, with your sign-in or the credential your
 admin configured. It reads telemetry and alerts from your Kopai workspace.
+Signing in goes through Kopai's OAuth server, Supabase Auth at
+`https://nfvdykzjzxurucsdbioo.supabase.co/auth/v1`, and Kopai's consent
+page at `https://app.kopai.app/oauth/consent`; your agent registers itself
+as an OAuth client there the first time.
 In Claude Tag, the on-call skills also read from the other tools your team
 connected to the channel and listed in the on-call repo's `STACK.md`, such
 as GitHub (code owners, pull requests, deploys), a pager (PagerDuty or
@@ -185,6 +194,10 @@ It writes only:
   `root-cause-analysis` for one;
 - your application's code and dependencies, when you ask
   `otel-instrumentation` to instrument it;
+- in code mode (`create-dashboard`, and `root-cause-analysis` for
+  loop-heavy questions), a short TypeScript script in your project and
+  `@kopai/sdk` in its `package.json` and lockfile;
+- `.kopairc`, only when you run `npx @kopai/cli login` yourself;
 - with the `agent` token's opt-in, new Kopai alert rules that a person
   approved in the thread;
 - with your own sign-in as a Kopai owner or admin, the alert rules you
@@ -201,11 +214,11 @@ public npm registry unless noted:
   the dashboard;
 - `root-cause-analysis` code mode, only for questions that need many
   queries in a loop: `@kopai/sdk`, `tsx` and, as a fallback, `@kopai/cli`;
-- `otel-instrumentation`: `@kopai/app` (a local Kopai to test against),
-  `@kopai/cli`, and the OpenTelemetry packages for your language, from
-  that language's package registry (npm, PyPI, Maven Central, the Go
-  module proxy, NuGet and so on) or, for the Java agent, OpenTelemetry's
-  releases on GitHub.
+- `otel-instrumentation`: `@kopai/app` (a local Kopai to test against, on
+  ports 4318 and 8000), `@kopai/cli`, and the OpenTelemetry packages for
+  your language, from that language's package registry (npm, PyPI, Maven
+  Central, the Go module proxy, NuGet and so on). For the Java agent it
+  points to OpenTelemetry's own instructions and downloads nothing itself.
 
 The scripts call Kopai's query API: in a Claude Tag sandbox at
 `https://api.kopai.app/v2`, with the channel's credential; elsewhere at
@@ -216,15 +229,18 @@ home directory, the same file the Kopai CLI uses.
 
 - **Claude doesn't use Kopai, or says it has no Kopai tools.** The
   plugin's Kopai connection isn't signed in. In Claude Code, run `/mcp`,
-  select `kopai` and sign in. In Grok Build, run `/mcps`. On claude.ai, connect Kopai on the plugin's
-  Connectors tab.
+  select `kopai` and sign in. On claude.ai, connect Kopai on the plugin's
+  Connectors tab. In Grok Build, check that the `kopai` plugin is
+  installed and trusted, then sign in when Grok asks.
 - **A question comes back with no data, though your services send
   telemetry.** Check the time window first, then the names: the column is
   `service.name`, not `ServiceName`, and a span's `StatusCode` is `Error`,
   not `ERROR`. A wrong name matches nothing instead of failing.
 - **A script can't reach Kopai, or gets 401.** Code mode reads the `url`
   and `token` from `.kopairc` in the project or your home directory. Check
-  both. For a local Kopai, start it with `npx @kopai/app start`.
+  both. For your hosted workspace, create a CLI token at
+  <https://app.kopai.app/tokens> and run `npx @kopai/cli login`; for a
+  local Kopai, start it with `npx @kopai/app start`.
 - **A script fails while downloading packages.** Code mode needs Node.js
   and the public npm registry. Claude Tag's default "Limited access"
   sandbox reaches the npm registry; a stricter environment needs it added.
@@ -237,7 +253,8 @@ home directory, the same file the Kopai CLI uses.
 
 - **Questions and bugs:** open an issue at
   <https://github.com/kopai-app/kopai-skills/issues>, with the `version`
-  from `.claude-plugin/plugin.json`. You can also email
+  from `.claude-plugin/plugin.json` or `.grok-plugin/plugin.json` (they
+  match). You can also email
   <hello@kopai.app>.
 - **Security problems:** don't open a public issue. Report them privately
   as the [security policy](https://github.com/kopai-app/kopai-skills/security/policy)

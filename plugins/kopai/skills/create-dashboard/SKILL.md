@@ -4,7 +4,7 @@ description: Build Kopai observability dashboards from OpenTelemetry metrics, lo
 license: Apache-2.0
 metadata:
   author: kopai
-  version: "1.6.1"
+  version: "1.6.2"
 ---
 
 # Create Dashboard with Kopai
@@ -24,8 +24,22 @@ npx @kopai/cli metrics discover --json
 ```
 
 The first prints every component and its props: build the `uiTree` only from those. The
-second lists the metrics with their `type` and `unit`. If either can't reach Kopai, start
-a local one with `npx @kopai/app start`, or check the `url` in `.kopairc` for a remote one.
+second lists the metrics with their `type` and `unit`. If either can't reach Kopai:
+
+- **Hosted Kopai** (the user's workspace at `app.kopai.app`): there is no `.kopairc`
+  yet, or it has no token. Signing in to the Kopai MCP server does not create one. Ask
+  the user to create a **CLI** token at `https://app.kopai.app/tokens`, then run
+  `npx @kopai/cli login` in their own terminal and paste the token at its prompt. It
+  saves the token for `https://api.kopai.app/v2` in `./.kopairc`; check that
+  `.kopairc` is in `.gitignore`, or have them add `--global` to save it in
+  `~/.kopairc` instead. Don't run `login` yourself (it waits for the token on stdin),
+  and never ask for the token in the conversation.
+- **Claude Tag sandbox**: there is no `.kopairc` and none is needed; add
+  `--url https://api.kopai.app/v2` to the CLI commands and connect the SDK with
+  `clientFromConfig({ url: "https://api.kopai.app/v2" })`.
+- **Local Kopai**: start one with `npx @kopai/app start`, only when the user wants a
+  local Kopai. A dashboard created there is not in their hosted workspace.
+- **Another instance**: check the `url` in `.kopairc`.
 
 ## Code mode (recommended)
 
@@ -88,7 +102,10 @@ unit }`, etc.
    ```
    On a `KopaiValidationError`/`KopaiError`, re-run `discoverMetrics()` to recheck names
    and types, fix the tree, and retry.
-5. **View** — open `<baseUrl>/?tab=metrics&dashboardId=<dash.id>`.
+5. **View** — open `<uiUrl>?tab=metrics&dashboardId=<dash.id>`, where `<uiUrl>` is
+   `https://app.kopai.app/observability` for hosted Kopai (the `.kopairc` URL is
+   `https://api.kopai.app/v2`, which serves no UI) and the `.kopairc` URL plus `/` for a
+   local or self-hosted Kopai (default `http://localhost:8000/`).
 
 ## Quick Example
 

@@ -74,7 +74,7 @@ Code mode: build each leaf tile's data with `kq`, embed it as `dataSource: { met
    }
    ```
 
-5. **View** — `<baseUrl>/?tab=metrics&dashboardId=<dash.id>`.
+5. **View** — `<uiUrl>?tab=metrics&dashboardId=<dash.id>` (see Post-Creation).
 
 ## Tree Structure Rules
 
@@ -155,11 +155,13 @@ Do not guess — always validate against the schema and `discoverMetrics()` outp
 Display the URL to the user:
 
 ```
-<baseUrl>/?tab=metrics&dashboardId=<id>
+<uiUrl>?tab=metrics&dashboardId=<id>
 ```
 
 - `<id>` — the `id` field on the returned `Dashboard`
-- `<baseUrl>` — the backend URL from `.kopairc` (default `http://localhost:8000`)
+- `<uiUrl>` — `https://app.kopai.app/observability` for hosted Kopai (`.kopairc` URL
+  `https://api.kopai.app/v2`, which serves no UI); otherwise the `.kopairc` URL plus `/`
+  (default `http://localhost:8000/`)
 
 Common pitfalls:
 

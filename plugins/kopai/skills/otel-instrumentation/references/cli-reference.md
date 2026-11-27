@@ -6,7 +6,7 @@
 
 ```bash
 # Search traces
-kopai traces search [--service NAME] [--span-name NAME] [--status-code OK|ERROR] [--json]
+kopai traces search [--service NAME] [--span-name NAME] [--status-code Unset|Ok|Error] [--json]
 
 # Get specific trace
 kopai traces get <traceId> [--json]
