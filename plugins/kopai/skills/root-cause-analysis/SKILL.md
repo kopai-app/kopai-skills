@@ -4,7 +4,7 @@ description: Investigate and root-cause production issues from live OpenTelemetr
 license: Apache-2.0
 metadata:
   author: kopai
-  version: "1.6.2"
+  version: "1.6.3"
 ---
 
 # Root Cause Analysis with Kopai
@@ -25,7 +25,7 @@ or a short TypeScript script; the CLI stays as a quick-lookup fallback.
 
 | You have                                                                                                                                                      | Use                                               |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| A Kopai `query` tool (Claude Tag channel, claude.ai connector, or Claude Code with the Kopai MCP server)                                                      | **Connector mode** below, for most investigations |
+| A Kopai `query` tool (any agent with the Kopai MCP server: Claude Code, claude.ai, a Claude Tag channel, Grok Build, …)                                       | **Connector mode** below, for most investigations |
 | A sandbox or project where you can run Node, and a question the connector answers awkwardly (many queries in a loop, joining results, arithmetic across rows) | **Code mode**                                     |
 | Neither                                                                                                                                                       | The CLI fallback at the end                       |
 
@@ -34,10 +34,12 @@ apply to each.
 
 ## Connector mode
 
-The Kopai connector exposes two read-only tools: `query`, which takes one
-KopaiQuery object under `query`, and `metrics_discover`. Their names carry
-a prefix that depends on how Kopai is connected (`mcp__kopai__query`,
-`mcp__claude_ai_Kopai__query`, …); use whichever is present. The tool's
+This skill uses two read-only tools of the Kopai connector: `query`, which
+takes one KopaiQuery object under `query`, and `metrics_discover`. Their
+names carry a prefix that depends on the agent and how Kopai is connected
+(`mcp__kopai__query`, `mcp__claude_ai_Kopai__query`, …); use whichever is
+present. The connector may offer alert tools too; an investigation does
+not need them. The tool's
 own schema is authoritative for field names, row caps and the aggregate
 cap; on `invalid_input`, repair the query from the returned `issues`.
 
@@ -92,13 +94,14 @@ Differences from the SDK in connector mode:
   `"Client"`), and treat an unexpected zero as a wrong value first.
 - A time series has no row for a bucket with no data.
 
-**Credentials.** In connector mode Claude never handles a Kopai token. In a
-Claude Tag channel, Kopai access is a credential the admin attached to the
-channel, applied outside the sandbox. Never ask anyone to paste a token
-into a thread.
+**Credentials.** In connector mode the agent never handles a Kopai token:
+the MCP server's sign-in covers it. Code mode reads a token from
+`.kopairc`; if there is none, ask the user to run `npx @kopai/cli login`.
+Never ask anyone to paste a token into the conversation or a thread.
 
-**Code mode in a Claude Tag sandbox.** The sandbox has no `.kopairc` and
-needs none: requests to `api.kopai.app` get the channel's Kopai credential
+**Code mode in a Claude Tag sandbox (Claude Tag only).** In a Claude Tag
+channel, Kopai access is a credential the admin attached to the channel,
+applied outside the sandbox. The sandbox has no `.kopairc` and needs none: requests to `api.kopai.app` get the channel's Kopai credential
 attached on the way out. Connect with
 `clientFromConfig({ url: "https://api.kopai.app/v2" })` and no token. If
 requests come back unauthorized, the channel's Kopai connection doesn't

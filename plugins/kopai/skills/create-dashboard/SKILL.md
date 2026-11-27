@@ -4,7 +4,7 @@ description: Build Kopai observability dashboards from OpenTelemetry metrics, lo
 license: Apache-2.0
 metadata:
   author: kopai
-  version: "1.6.1"
+  version: "1.6.2"
 ---
 
 # Create Dashboard with Kopai
@@ -24,8 +24,16 @@ npx @kopai/cli metrics discover --json
 ```
 
 The first prints every component and its props: build the `uiTree` only from those. The
-second lists the metrics with their `type` and `unit`. If either can't reach Kopai, start
-a local one with `npx @kopai/app start`, or check the `url` in `.kopairc` for a remote one.
+second lists the metrics with their `type` and `unit`. If either can't reach Kopai:
+
+- **Hosted Kopai** (the user's workspace at `app.kopai.app`): there is no `.kopairc`
+  yet, or it has no token. Ask the user to run `npx @kopai/cli login`, which saves a
+  token for `https://api.kopai.app/v2` in `./.kopairc`. Never ask them to paste the
+  token into the conversation. Signing in to the Kopai MCP server does not create a
+  `.kopairc`.
+- **Local Kopai**: start one with `npx @kopai/app start`, only when the user wants a
+  local Kopai. A dashboard created there is not in their hosted workspace.
+- **Another instance**: check the `url` in `.kopairc`.
 
 ## Code mode (recommended)
 
@@ -88,7 +96,10 @@ unit }`, etc.
    ```
    On a `KopaiValidationError`/`KopaiError`, re-run `discoverMetrics()` to recheck names
    and types, fix the tree, and retry.
-5. **View** — open `<baseUrl>/?tab=metrics&dashboardId=<dash.id>`.
+5. **View** — open `<uiUrl>?tab=metrics&dashboardId=<dash.id>`, where `<uiUrl>` is
+   `https://app.kopai.app/observability` for hosted Kopai (the `.kopairc` URL is
+   `https://api.kopai.app/v2`, which serves no UI) and the `.kopairc` URL plus `/` for a
+   local or self-hosted Kopai (default `http://localhost:8000/`).
 
 ## Quick Example
 

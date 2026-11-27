@@ -169,11 +169,12 @@ the full tile catalog, sizing, and tree rules.
 After creation, present the link to the user:
 
 ```
-<baseUrl>/?tab=metrics&dashboardId=<id>
+<uiUrl>?tab=metrics&dashboardId=<id>
 ```
 
-Where `<id>` is `dash.id` and `<baseUrl>` is your `.kopairc` URL (default
-`http://localhost:8000`).
+Where `<id>` is `dash.id` and `<uiUrl>` is `https://app.kopai.app/observability` for
+hosted Kopai (`.kopairc` URL `https://api.kopai.app/v2`, which serves no UI), otherwise
+your `.kopairc` URL plus `/` (default `http://localhost:8000/`).
 
 ### Why create a dashboard?
 

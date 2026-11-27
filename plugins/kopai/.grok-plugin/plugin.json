@@ -1,8 +1,8 @@
 {
   "name": "kopai",
   "displayName": "Kopai",
-  "version": "0.1.11",
-  "description": "Investigate production issues with your OpenTelemetry traces, logs and metrics in Kopai: root-cause analysis through the hosted Kopai MCP server, plus dashboards and instrumentation help through the Kopai SDK and CLI (these need a Kopai token in .kopairc). It never changes a system it monitors; it writes only what you ask for, such as a dashboard, instrumentation code or an alert rule you approved.",
+  "version": "0.1.12",
+  "description": "Investigate production issues with your OpenTelemetry traces, logs and metrics in Kopai: root-cause analysis through the hosted Kopai MCP server, Kopai dashboards through the Kopai SDK and CLI (these need a Kopai token in .kopairc, from `kopai login`), and OpenTelemetry instrumentation checked against a local Kopai. It never changes a system it monitors; it writes only what you ask for, such as a dashboard, instrumentation code or an alert rule you approved.",
   "author": {
     "name": "Kopai",
     "url": "https://kopai.app"
