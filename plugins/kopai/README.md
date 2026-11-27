@@ -74,10 +74,19 @@ service".
 ## Use it in Grok Build
 
 Install `kopai` from xAI's plugin marketplace in Grok Build. Grok gets the
-same Kopai MCP server and the three skills in `skills/`; the Claude pages
-and on-call skills need Claude and are not included. Grok asks you to sign
-in to Kopai the first time, and then acts as you, with the same tools and
-limits as listed above.
+Kopai MCP server and the three skills in `skills/`; the Claude pages and
+on-call skills need Claude and are not included. Grok asks you to sign in
+to Kopai the first time (or run `/mcps`), and then acts as you:
+
+- `query` and `metrics_discover`, and on a workspace with Kopai alerting
+  the five read-only alert tools listed above;
+- when you are a Kopai owner or admin, `alert_rule_create`,
+  `alert_rule_update` and `alert_rule_set_enabled`. No skill calls the
+  last two; Grok uses them only when you ask it to.
+
+`create-dashboard` and `otel-instrumentation` run code with the Kopai SDK
+and CLI rather than the MCP server. They need a Kopai token in a
+`.kopairc` file, as described under "Data and privacy".
 
 ## On-call in Claude Tag
 
@@ -183,9 +192,9 @@ It writes only:
 
 Kopai's privacy policy: <https://kopai.app/privacy/>.
 
-Some skills run code where Claude can run Node (Claude Code, or a Claude
-Tag sandbox) and download packages to do so, from the public npm registry
-unless noted:
+Some skills run code where the agent can run Node (Claude Code, a Claude
+Tag sandbox, or Grok Build) and download packages to do so, from the
+public npm registry unless noted:
 
 - `create-dashboard`: `@kopai/cli`, to read the dashboard schema and your
   metrics before it builds anything, then `@kopai/sdk` and `tsx` to create
@@ -207,7 +216,7 @@ home directory, the same file the Kopai CLI uses.
 
 - **Claude doesn't use Kopai, or says it has no Kopai tools.** The
   plugin's Kopai connection isn't signed in. In Claude Code, run `/mcp`,
-  select `kopai` and sign in. On claude.ai, connect Kopai on the plugin's
+  select `kopai` and sign in. In Grok Build, run `/mcps`. On claude.ai, connect Kopai on the plugin's
   Connectors tab.
 - **A question comes back with no data, though your services send
   telemetry.** Check the time window first, then the names: the column is
